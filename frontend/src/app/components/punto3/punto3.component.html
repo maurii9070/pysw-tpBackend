@@ -1,0 +1,105 @@
+<section>
+    <h2 class="text-center">Punto 3</h2>
+
+    <div class="row mt-4">
+        <div class="col-5">
+            <h3>{{!edicion ? 'Nuevo Ticket' : 'Editar Ticket'}}</h3>
+            <form (submit)="agregarTicket()">
+                <div class="form-group mb-3">
+                    <label for="precio">Precio</label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        id="precio" 
+                        name="precio"
+                        [(ngModel)]="precioTicket"
+                    >
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="precio">Categoria</label>
+                    <select 
+                        name="categoria" 
+                        id="categoria" 
+                        class="form-control" 
+                        [(ngModel)]="categoriaEspectador"
+                    >
+                        <option value="">-- Ingrese Categoria --</option>
+                        <option value="e">Extranjero</option>                      
+                        <option value="l">Local</option>                      
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="precio">Fecha</label>
+                    <input 
+                        type="text" 
+                        name="fecha" 
+                        id="fecha" 
+                        placeholder="dd/MM/aaaa" 
+                        class="form-control"
+                        [(ngModel)]="fechaCompra"
+                    >
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="precio">Espectador</label>
+                    <select name="categoria" id="categoria" class="form-control" [(ngModel)]="espectador">
+                        <option value="">-- Seleccionar Espectador --</option>
+                        @for(espectador of espectadores; track espectador._id){
+                            <option value="{{ espectador._id }}">{{espectador.apellido}}  {{ espectador.nombre }}</option>
+                        }
+                    </select>
+                </div>
+
+                <button class="btn btn-primary w-100 fw-bold">
+                    {{ edicion ? 'Editar' : 'Agregar' }}
+                </button>
+            </form>
+        </div>
+
+        <div class="col-7">
+            <div class="d-flex justify-content-end">
+                <form style="width: 320px;">
+                    <select 
+                        name="filtrarCategoria" 
+                        id="filtrarCategoria" 
+                        class="form-control" 
+                        [(ngModel)]="espectadorFilter"
+                        (change)="filtrarTicketsEspectador(espectadorFilter)"
+                    >
+                        <option value="">-- TODOS ---</option>
+                        <option value="e">Extranjero</option>
+                        <option value="l">Local</option>
+                    </select>
+                </form>
+            </div>
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Espectador</th>
+                        <th>Categoria</th>
+                        <th>Fecha</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(ticket of tickets; track ticket._id){
+                        <tr>
+                            <td>{{buscarEspectador(ticket.espectador)}}</td>
+                            <td>{{ ticket.categoriaEspectador === 'e' ? 'Extranjero' : 'Local' }}</td>
+                            <td>{{ ticket.fechaCompra }}</td>
+                            <td>{{ ticket.precioTicket }}</td>
+                            <td class="d-flex gap-3">
+                                <button class="btn btn-danger" (click)="eliminarTicket(ticket._id)">Eliminar</button>
+                                <button class="btn btn-warning" (click)="editarPaciente(ticket._id)">Modificar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

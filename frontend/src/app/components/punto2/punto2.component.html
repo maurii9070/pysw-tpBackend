@@ -1,0 +1,103 @@
+<section>
+    <h2>Punto 2</h2>
+    <div class="row mt-5">
+        <div class="col-6">
+            <h3 class="text-center">Conversor de Divisas</h3>
+            <form style="width: 420px;" (submit)="agregarTransaccion()">
+                <div class="form-group mb-2">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        id="exampleInputEmail1" 
+                        name="email" 
+                        [(ngModel)]="emailCliente"
+                    >
+                </div>
+                <div class="form-group mb-2">
+                    <label for="cantidad">Cantidad</label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        id="cantidad" 
+                        name="cantidad"
+                        [(ngModel)]="cantidadOrigen"
+                    >
+                </div>
+                <div class="form-group mb-2">
+                    <label for="origen">De:</label>
+                    <select class="form-control" id="origen" name="origen" [(ngModel)]="monedaOrigen">
+                        <option value="">-- Seleccione Moneda Origen --</option>
+                        <option value="USD">Dolar EEUU</option>
+                        <option value="EUR">Euro</option>
+                        <option value="ARS">Peso Argentino</option>
+                        <option value="BRL">Real Brasileño</option>
+                    </select>
+                </div>
+                <div class="form-group mb-2">
+                    <label for="destino">A:</label>
+                    <select class="form-control" id="destino" name="destino" [(ngModel)]="monedaDestino">
+                        <option value="">-- Seleccione Moneda Destino --</option>
+                        <option value="USD">Dolar EEUU</option>
+                        <option value="EUR">Euro</option>
+                        <option value="ARS">Peso Argentino</option>
+                        <option value="BRL">Real Brasileño</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Convertir</button>
+            </form>
+        </div>
+
+        <div class="col-6">
+            <h3 class="text-center">Historial de Conversiones</h3>
+            <div class="d-flex justify-content-between my-4">
+                <div>
+                    <button class="btn btn-primary" (click)="getTransacciones()">Recuperar TODOS</button>
+                </div>
+                <form style="width: 320px;">
+                    <select 
+                        name="divisa" 
+                        id="divisa" 
+                        class="form-control" 
+                        [(ngModel)]="divisaFilter" 
+                        (change)="getTransaccionesDivisa(divisaFilter)"
+                    >
+                        <option value="">-- Seleccione Moneda a Filtrar --</option>
+                        <option value="USD">Dolar EEUU</option>
+                        <option value="EUR">Euro</option>
+                        <option value="ARS">Peso Argentino</option>
+                        <option value="BRL">Real Brasileño</option>
+                    </select>
+                </form>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>De</th>
+                        <th>Cantidad Origen</th>
+                        <th>A</th>
+                        <th>Cantidad Destino</th>
+                    </tr>
+                </thead>                
+                <tbody>
+                    @if(transacciones.length === 0){
+                        <tr>
+                            <td colspan="4" class="text-center">No hay transacciones</td>
+                        </tr>
+                    } @else {
+                        @for(transaccion of transacciones; track transaccion._id){
+                            <tr>
+                                <td>{{ transaccion.emailCliente }}</td>
+                                <td>{{ transaccion.monedaOrigen }}</td>
+                                <td>{{ formatCurrency(transaccion.cantidadOrigen) }}</td>
+                                <td>{{ transaccion.monedaDestino }}</td>
+                                <td>{{ formatCurrency(transaccion.cantidadDestino) }}</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

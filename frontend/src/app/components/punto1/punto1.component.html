@@ -1,0 +1,78 @@
+<section>
+    <h1 class="text-center">Punto 1</h1>
+    <div class="row">
+        <div class="col-6">
+            <div class="d-flex justify-content-between py-3">
+                <h3>{{verDestacados ? 'Productos Destacados' : 'Productos'}}</h3>
+                <button class="btn btn-primary" (click)="toogleDestacados()">
+                    {{verDestacados ? 'Ver Todos los productos' : 'Ver Destacados'}}
+                </button>
+            </div>
+            <div id="carouselExample" class="carousel slide">
+                <div class="carousel-inner">
+                    @for(producto of productosFiltrados(); track producto._id; let idx = $index){
+                    <div class="carousel-item" [class.active]="idx === 0">
+                        <div class="card mx-auto" style="width: 18rem; height: 580px;">
+                            <img src="{{producto.img}}" class="card-img-top" alt="{{producto.nombre}}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{producto.nombre}}</h5>
+                                <p class="card-text">{{producto.descripcion}}</p>
+                                <p class="fw-bold fs-5">{{formatCurrency(producto.precio)}}</p>
+                                <p>Stock: {{producto.stock}}</p>
+                                <a href="#" class="btn btn-primary">Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                </div>
+                <button class="carousel-control-prev custom-carousel-control bg-dark-subtle" type="button"
+                    data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon " aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next custom-carousel-control bg-dark-subtle" type="button"
+                    data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <h3>Agregar Producto</h3>
+
+            <form (submit)="agregarProducto()" method="post">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" [(ngModel)]="nombre" name="nombre">
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcion" rows="3" [(ngModel)]="descripcion"
+                        name="descripcion"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="img" class="form-label">URL Imagen</label>
+                    <input type="text" class="form-control" id="img" [(ngModel)]="urlImg" name="img">
+                </div>
+                <div class="mb-3">
+                    <label for="precio" class="form-label">Precio</label>
+                    <input type="number" class="form-control" id="precio" [(ngModel)]="precio" name="precio">
+                </div>
+                <div class="mb-3">
+                    <label for="stock" class="form-label">Stock</label>
+                    <input type="number" class="form-control" id="stock" [(ngModel)]="stock" name="stock">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="destacado" [(ngModel)]="destacado"
+                        name="destacado">
+                    <label class="form-check" for="destacado">
+                        Destacado
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary mt-4 w-100 fw-bold">Agregar</button>
+            </form>
+        </div>
+    </div>
+</section>
